@@ -63,6 +63,7 @@ class _GrocerystoreHomeState extends State<GrocerystoreHome> {
           animation: bloc,
           builder: (context, state) {
             return Scaffold(
+              backgroundColor: Colors.black,
               body: Stack(
                 children: [
                   AnimatedPositioned(
@@ -93,84 +94,7 @@ class _GrocerystoreHomeState extends State<GrocerystoreHome> {
                       height: size.height - kToolbarHeight,
                       child: GestureDetector(
                         onVerticalDragUpdate: _onVerticalGesture,
-                        child: Container(
-                          color: Colors.black,
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(15.0),
-                                child: SizedBox(
-                                  height: 50,
-                                  child: AnimatedSwitcher(
-                                    duration: _panelTrasition,
-                                    child: bloc.groceryState == GroceryState.normal ? Row(
-                                      children: [
-                                        const Text("Cart",
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 20,
-                                                color: Colors.white)),
-                                        Expanded(
-                                            child: SingleChildScrollView(
-                                          scrollDirection: Axis.horizontal,
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 8.0),
-                                            child: Row(
-                                                children: List.generate(
-                                                    bloc.cart.length,
-                                                    (index) => Stack(
-                                                          children: [
-                                                            Padding(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                          .symmetric(
-                                                                      horizontal:
-                                                                          8.0),
-                                                              child: Hero(
-                                                                tag: "list_${bloc.cart[index].product.name!}_details",
-                                                                child: CircleAvatar(
-                                                                  backgroundImage:
-                                                                      NetworkImage(bloc.cart[index].product.image!),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            CircleAvatar(
-                                                              radius: 10,
-                                                              backgroundColor:
-                                                                  Colors.red,
-                                                              child: Text(
-                                                                "${bloc.cart[index].quantity}",
-                                                                style:
-                                                                    const TextStyle(
-                                                                        color: Colors
-                                                                            .white),
-                                                              ),
-                                                            )
-                                                          ],
-                                                        ))),
-                                          ),
-                                        )),
-                                        CircleAvatar(
-                                          backgroundColor: Colors.amber,
-                                          child: Text(
-                                            "${bloc.totalCartElements()}",
-                                                style: const TextStyle(
-                                                    color: Colors.white,
-                                                  fontWeight: FontWeight.bold
-                                                ),
-                                          ),
-                                        ),
-                                      ],
-                                    )
-                                        :SizedBox.shrink(),
-                                  ),
-                                ),
-                              ),
-                             Expanded(child: GroceryStoreCart())
-                            ],
-                          ),
-                        ),
+                        child: GroceryCar(bloc: bloc),
                       )),
                   AnimatedPositioned(
                       duration: _panelTrasition,
@@ -187,6 +111,97 @@ class _GrocerystoreHomeState extends State<GrocerystoreHome> {
   }
 }
 
+class GroceryCar extends StatelessWidget {
+  const GroceryCar({
+    Key? key,
+    required this.bloc,
+  }) : super(key: key);
+
+  final GroceryStoreBloc bloc;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.black,
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: SizedBox(
+              height: 50,
+              child: AnimatedSwitcher(
+                duration: _panelTrasition,
+                child: bloc.groceryState == GroceryState.normal ? Row(
+                  children: [
+                    const Text("Cart",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                            color: Colors.white)),
+                    Expanded(
+                        child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8.0),
+                        child: Row(
+                            children: List.generate(
+                                bloc.cart.length,
+                                (index) => Stack(
+                                      children: [
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets
+                                                      .symmetric(
+                                                  horizontal:
+                                                      8.0),
+                                          child: Hero(
+                                            tag: "list_${bloc.cart[index].product.name!}_details",
+                                            child: CircleAvatar(
+                                              backgroundImage:
+                                                  NetworkImage(bloc.cart[index].product.image!),
+                                            ),
+                                          ),
+                                        ),
+                                        CircleAvatar(
+                                          radius: 10,
+                                          backgroundColor:
+                                              Colors.red,
+                                          child: Text(
+                                            "${bloc.cart[index].quantity}",
+                                            style:
+                                                const TextStyle(
+                                                    color: Colors
+                                                        .white),
+                                          ),
+                                        )
+                                      ],
+                                    ))),
+                      ),
+                    )),
+                    CircleAvatar(
+                      backgroundColor: Colors.amber,
+                      child: Text(
+                        "${bloc.totalCartElements()}",
+                            style: const TextStyle(
+                                color: Colors.white,
+                              fontWeight: FontWeight.bold
+                            ),
+                      ),
+                    ),
+                  ],
+                )
+                    :SizedBox.shrink(),
+              ),
+            ),
+          ),
+         Expanded(child: GroceryStoreCart())
+        ],
+      ),
+    );
+  }
+}
+
 class AppBarGrocery extends StatelessWidget {
   const AppBarGrocery({
     Key? key,
@@ -195,8 +210,8 @@ class AppBarGrocery extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(top: 15),
-      height: kToolbarHeight,
+      padding: const EdgeInsets.only(top: 15),
+      height: kToolbarHeight+15,
       color: _backgroundColor,
       child: Row(
         children: [

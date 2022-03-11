@@ -48,7 +48,7 @@ class _GroceryStoreDetailsState extends State<GroceryStoreDetails> {
                     tag: "list_${widget.product.name}_$heroTag",
                         child: Image.network(
                           widget.product.image!,
-                          height: MediaQuery.of(context).size.height * 0.4,
+                          height: MediaQuery.of(context).size.height * 0.3,
                           fit: BoxFit.contain,
                         ),
                   )),
@@ -75,7 +75,7 @@ class _GroceryStoreDetailsState extends State<GroceryStoreDetails> {
                   ),
                   const SizedBox(height: 15),
                   const Text(
-                    "About the roduct",
+                    "About the product",
                     style:
                     TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                   ),

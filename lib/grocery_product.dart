@@ -22,6 +22,13 @@ const groceryProducts = <GroceryProduct> [
       weight: "1000g"
   ),
   GroceryProduct(
+      price: 14.11,
+      name: "Piña",
+      decription: "Ananas comosus es una especie de la familia de las bromeliáceas, nativa de América del Sur. Planta de escaso porte y con hojas duras y lanceoladas de hasta 1 m de largo, fructifica una vez al año produciendo un único fruto fragante y dulce, muy apreciado en gastronomía.",
+      image: "https://www.frutality.es/wp-content/uploads/pi%C3%B1a.png",
+      weight: "1000g"
+  ),
+  GroceryProduct(
       price: 3.54,
       name: "Avocado",
       decription: "El aguacate (Persea americana Mill.) es un fruto exótico carnoso que se obtiene del árbol tropical del mismo nombre. En algunas partes de América del Sur",

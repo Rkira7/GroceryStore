@@ -17,7 +17,7 @@ class GroceryStoreList extends StatelessWidget {
       child: StaggeredDualView(
         aspectRatio: 0.6,
         itemCount: bloc.catalog.length,
-        offsetPercent: 0.3,
+        offsetPercent: 0.5,
         spacing: 10,
         itemBuider: (context, index) {
           final product = bloc.catalog[index];
@@ -38,7 +38,7 @@ class GroceryStoreList extends StatelessWidget {
             },
             child: Card(
               elevation: 8,
-              shadowColor: Colors.black45,
+              shadowColor: Colors.black,
               shape:
                   RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
               child: Padding(
