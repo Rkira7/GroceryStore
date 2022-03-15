@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:grocerystore/grocery_product.dart';
 
+import '../Bloc/grocery_store_bloc.dart';
+
 class GroceryStoreDetails extends StatefulWidget {
   final GroceryProduct product;
   final VoidCallback onProductAdded;
@@ -14,15 +16,14 @@ class GroceryStoreDetails extends StatefulWidget {
 
 class _GroceryStoreDetailsState extends State<GroceryStoreDetails> {
 
-  String heroTag = "";
-
-  void _addToCart(BuildContext context){
-    setState(() {
-      heroTag = "details";
-    });
-    widget.onProductAdded();
-    Navigator.of(context).pop();
+  @override
+  void dispose() {
+    bloc.streamTag;
+    // TODO: implement dispose
+    super.dispose();
   }
+
+  final bloc = GroceryStoreBloc();
 
   @override
   Widget build(BuildContext context) {
@@ -43,15 +44,21 @@ class _GroceryStoreDetailsState extends State<GroceryStoreDetails> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Center(
-                      child: Hero(
-                    tag: "list_${widget.product.name}_$heroTag",
-                        child: Image.network(
-                          widget.product.image!,
-                          height: MediaQuery.of(context).size.height * 0.3,
-                          fit: BoxFit.contain,
-                        ),
-                  )),
+                  StreamBuilder<String>(
+                    stream: bloc.streamTag,
+                    initialData: "",
+                    builder: (context, heroTag) {
+                      return Center(
+                          child: Hero(
+                        tag: "list_${widget.product.name}_${heroTag.data}",
+                            child: Image.network(
+                              widget.product.image!,
+                              height: MediaQuery.of(context).size.height * 0.3,
+                              fit: BoxFit.contain,
+                            ),
+                      ));
+                    }
+                  ),
 
                   Text("${widget.product.name}",
                     style:
@@ -107,7 +114,7 @@ class _GroceryStoreDetailsState extends State<GroceryStoreDetails> {
                         backgroundColor:
                             MaterialStateProperty.all<Color>(const Color(0xfff4c459)),),
                       onPressed: () {
-                        _addToCart(context);
+                        bloc.addToCart(context, widget.onProductAdded);
                       },
                       child: const Text("Add to cart",
                         style: TextStyle(

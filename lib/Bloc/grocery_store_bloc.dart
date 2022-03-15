@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 
 import '../grocery_product.dart';
@@ -12,6 +14,8 @@ class GroceryStoreBloc with ChangeNotifier{
   GroceryState groceryState = GroceryState.normal;
   List<GroceryProduct> catalog = List.unmodifiable(groceryProducts);
   List<GroceryProductItem> cart = [];
+  StreamController<String> streamController = StreamController();
+  Stream<String> get streamTag => streamController.stream;
 
   void changeToNormal(){
     groceryState = GroceryState.normal;
@@ -48,6 +52,12 @@ class GroceryStoreBloc with ChangeNotifier{
     cart.remove(productItem);
     notifyListeners();
 
+  }
+
+  void addToCart(BuildContext context, onProductAdded){
+    onProductAdded();
+    streamController.add("details");
+    Navigator.of(context).pop();
   }
 }
 
