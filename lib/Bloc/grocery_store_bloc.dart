@@ -14,8 +14,7 @@ class GroceryStoreBloc with ChangeNotifier{
   GroceryState groceryState = GroceryState.normal;
   List<GroceryProduct> catalog = List.unmodifiable(groceryProducts);
   List<GroceryProductItem> cart = [];
-  StreamController<String> streamController = StreamController();
-  Stream<String> get streamTag => streamController.stream;
+  String tagHero = "";
 
   void changeToNormal(){
     groceryState = GroceryState.normal;
@@ -56,7 +55,8 @@ class GroceryStoreBloc with ChangeNotifier{
 
   void addToCart(BuildContext context, onProductAdded){
     onProductAdded();
-    streamController.add("details");
+    tagHero = "details";
+    notifyListeners();
     Navigator.of(context).pop();
   }
 }
